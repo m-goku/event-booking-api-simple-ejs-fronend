@@ -42,13 +42,15 @@ A full-stack Node.js application for managing event bookings, built with:
    ```bash
    git clone https://github.com/yourusername/event-booking-api-simple-ejs-frontend.git
 
-2. npm install
+2. ```bash
+   npm install
 3. cretae .env
    ```bash
    PORT=5000
    MONGODB_URI=your_mongodb_connection_string
    JWT_SECRET=your_jwt_secret
-5. ```bash http://localhost:5000
+5. ```bash
+   http://localhost:5000
 
 
 
