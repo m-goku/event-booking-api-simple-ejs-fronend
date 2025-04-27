@@ -44,10 +44,11 @@ A full-stack Node.js application for managing event bookings, built with:
 
 2. npm install
 3. cretae .env
+   ```bash
    PORT=5000
    MONGODB_URI=your_mongodb_connection_string
    JWT_SECRET=your_jwt_secret
-4. http://localhost:5000
+5. ```bash http://localhost:5000
 
 
 
