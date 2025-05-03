@@ -17,18 +17,23 @@ import {
 } from "../utils/validationUtils";
 import { generateToken } from "../utils/tokenUtils";
 
-/**
- * Registers a new user in the system.
- * This function performs the following steps:
- * - Validates the registration input.
- * - Checks if a user with the provided email already exists in the database.
- * - Hashes the user's password for secure storage.
- * - Creates a new user and saves it to the database.
- * - Sends a success response if the user is created successfully.
- *
- * - {ConflictError409} If a user with the provided email already exists.
- * - {InternalServerError500} If an unexpected error occurs during the process.
- */
+export const registerPage = async (req: Request, res: Response) => {
+  try {
+    res.render("auth/signUpPage");
+  } catch (error) {
+    logger.error(error.message);
+    InternalServerError500(res, error);
+  }
+};
+
+export const signInPage = async (req: Request, res: Response) => {
+  try {
+    res.render("auth/signInPage");
+  } catch (error) {
+    logger.error(error.message);
+    InternalServerError500(res, error);
+  }
+};
 
 export const registerUser = async (req: Request, res: Response) => {
   try {
@@ -56,19 +61,6 @@ export const registerUser = async (req: Request, res: Response) => {
     InternalServerError500(res, error);
   }
 };
-
-/**
- * Authenticates a user and generates a token for session management.
- * This function performs the following steps:
- * - Validates the login input.
- * - Checks if a user with the provided email exists in the database.
- * - Verifies the provided password against the stored hashed password.
- * - Generates a JWT token for the authenticated user.
- * - Sends the token in the response header and a success response.
- *
- * - {NotFound404} If the email or password is invalid.
- * - {InternalServerError500} If an unexpected error occurs during the process.
- */
 
 export const signInUser = async (req: Request, res: Response) => {
   try {

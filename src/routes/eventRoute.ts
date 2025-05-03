@@ -6,6 +6,7 @@ import {
   getAllEvents,
   getEvent,
   updateEvent,
+  addEventPage,
 } from "../controllers/eventController";
 import {
   RoleAuthorization,
@@ -18,6 +19,7 @@ eventRouter.get("/:id", getEvent);
 /*
 - post, update, delate routes need role authorization of "Organizer" after authentication 
 */
+eventRouter.get("/add", AuthenticateUser, RoleAuthorization, addEventPage);
 eventRouter.post("/add", AuthenticateUser, RoleAuthorization, addEvent);
 eventRouter.put(
   "/update/:id",

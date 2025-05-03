@@ -1,5 +1,8 @@
 require("dotenv").config();
 import express from "express";
+import expressLayout from "express-ejs-layouts";
+import path from "path";
+import cors from "cors";
 
 import { authRouter } from "./routes/authRoute";
 import { bookingRouter } from "./routes/bookingRoute";
@@ -12,6 +15,13 @@ const app = express();
 const PORT = process.env.PORT;
 
 app.use(express.json());
+app.use(cors());
+
+// Templating engine
+app.use(expressLayout);
+app.set("layout", "./layouts/main");
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 app.use("/auth", authRouter);
 /*

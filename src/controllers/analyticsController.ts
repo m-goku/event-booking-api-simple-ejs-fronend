@@ -55,7 +55,7 @@ export const eventRevenue = async (req: Request, res: Response) => {
       },
     ]);
 
-    return Success200(res, "_", revenue);
+    res.render("analytics/eventRevenuePage");
   } catch (error) {
     logger.error(error.message);
     return InternalServerError500(res, error);
@@ -109,7 +109,7 @@ export const mostPopular = async (req: Request, res: Response) => {
         },
       },
     ]);
-    return Success200(res, "_", mostPopular);
+    res.render("analytics/mostPopularPage");
   } catch (error) {
     logger.error(error.message);
     return InternalServerError500(res, error);
@@ -155,7 +155,7 @@ export const topThreeCategories = async (req: Request, res: Response) => {
         },
       },
     ]);
-    return Success200(res, "_", topThreeCategories);
+    res.render("analytics/topThreePage");
   } catch (error) {
     logger.error(error.message);
     return InternalServerError500(res, error);

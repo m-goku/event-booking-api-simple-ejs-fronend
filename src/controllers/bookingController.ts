@@ -21,11 +21,7 @@ export const getAllBookings = async (
     if (bookings.length === 0) {
       return NotFound404(res, "You currently  have no bookings");
     }
-    return Success200(
-      res,
-      `You currently have ${bookings.length} Booking(s)`,
-      bookings
-    );
+    res.render("bookings/addBookingPage");
   } catch (error) {
     logger.error(error.message);
     return InternalServerError500(res, error);
@@ -39,10 +35,19 @@ export const getBooking = async (req: Request, res: Response) => {
     if (!booking) {
       return NotFound404(res, "Booking Does not exist or no longer available");
     }
-    return Success200(res, `_`, booking);
+    res.render("bookings/singleBookingPage");
   } catch (error) {
     logger.error(error.message);
     return InternalServerError500(res, error);
+  }
+};
+
+export const addBookingPage = async (req: Request, res: Response) => {
+  try {
+    res.render("bookings/addBookingPage");
+  } catch (error) {
+    logger.error(error.message);
+    InternalServerError500(res, error);
   }
 };
 
