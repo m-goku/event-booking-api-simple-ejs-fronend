@@ -14,7 +14,7 @@ import { logger } from "../utils/loggerUtils";
 export const getAllEvents = async (req: Request, res: Response) => {
   try {
     const events = await Event.find().populate("organizer", "name");
-    res.render("events/allEvents");
+    res.render("events/allEventsPage");
   } catch (error) {
     logger.error(error.message);
     return InternalServerError500(res, error);
@@ -28,7 +28,7 @@ export const getEvent = async (req: Request, res: Response) => {
     if (!event) {
       return NotFound404(res, "Event With Given ID not Found");
     }
-    res.render("events/singleEvent");
+    res.render("events/singleEventPage");
   } catch (error) {
     logger.error(error.message);
     return InternalServerError500(res, error);

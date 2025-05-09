@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-
+import JWT from "jsonwebtoken";
 import { userRegistrationType, userSignInType } from "../types/types";
 import { User } from "../models/authModels";
 import { logger } from "../utils/loggerUtils";
@@ -35,6 +35,15 @@ export const signInPage = async (req: Request, res: Response) => {
   }
 };
 
+export const dashboardPage = async (req: Request, res: Response) => {
+  try {
+    res.render("auth/dashboardPage");
+  } catch (error) {
+    logger.error(error.message);
+    InternalServerError500(res, error);
+  }
+};
+
 export const registerUser = async (req: Request, res: Response) => {
   try {
     validateRegistrationInput(req.body);
@@ -42,7 +51,7 @@ export const registerUser = async (req: Request, res: Response) => {
 
     const userExist = await User.findOne({ email });
     if (userExist) {
-      ConflictError409(res, "User Already Exists, try signing in");
+      return ConflictError409(res, "User Already Exists, try signing in");
     }
 
     const hashedPassword = await hashPassword(password);
@@ -55,10 +64,10 @@ export const registerUser = async (req: Request, res: Response) => {
     });
 
     const user = await newUser.save();
-    createdSuccess201(res, "User Created Successfully", user);
+    return createdSuccess201(res, "User Created Successfully", user);
   } catch (error) {
     logger.error(error.message);
-    InternalServerError500(res, error);
+    return InternalServerError500(res, error);
   }
 };
 
@@ -75,9 +84,14 @@ export const signInUser = async (req: Request, res: Response) => {
       return NotFound404(res, "Invalid Email or Password, try again");
     }
 
+    // const token = generateToken(user._id, user.name, user.role);
+
     const token = generateToken(user._id, user.name, user.role);
-    res.header({ token });
-    return Success200(res, "User Logged in", token);
+    res.cookie("jwt", token, {
+      httpOnly: true,
+    });
+    console.log(token);
+    res.redirect("/bookings");
   } catch (error) {
     logger.error(error.message);
     return InternalServerError500(res, error);

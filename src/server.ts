@@ -4,6 +4,8 @@ import expressLayout from "express-ejs-layouts";
 import path from "path";
 import cors from "cors";
 
+const cookieParser = require("cookie-parser");
+
 import { authRouter } from "./routes/authRoute";
 import { bookingRouter } from "./routes/bookingRoute";
 import { eventRouter } from "./routes/eventRoute";
@@ -14,8 +16,10 @@ import { analyticsRoute } from "./routes/analyticsRoute";
 const app = express();
 const PORT = process.env.PORT;
 
+app.use(cors({ credentials: true, origin: "http:localhost:3001" }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser());
 
 // Templating engine
 app.use(expressLayout);

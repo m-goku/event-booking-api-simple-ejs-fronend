@@ -21,7 +21,7 @@ export const getAllBookings = async (
     if (bookings.length === 0) {
       return NotFound404(res, "You currently  have no bookings");
     }
-    res.render("bookings/addBookingPage");
+    res.render("bookings/allBookingsPage");
   } catch (error) {
     logger.error(error.message);
     return InternalServerError500(res, error);

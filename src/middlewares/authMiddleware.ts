@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { verifyToken } from "../utils/tokenUtils";
 import { Schema } from "mongoose";
+import JWT from "jsonwebtoken";
 import {
   Forbidden403,
   InternalServerError500,
@@ -14,6 +15,10 @@ export interface AuthenticationRequest extends Request {
     _id: Schema.Types.ObjectId;
     role: string;
   };
+  cookie: {
+    "connect.sid": any;
+    token: any;
+  };
 }
 
 export const AuthenticateUser = (
@@ -22,14 +27,10 @@ export const AuthenticateUser = (
   next: NextFunction
 ) => {
   try {
-    /*
-        - get token from header
-        - verify token with JWT verify
-        - get Payload
-        - add to req.user
-  */
+    const token = req.cookies.jwt as string;
+    console.log(req.cookies);
 
-    const token = req.headers["token"];
+    console.log(token);
     if (!token) {
       return NotFound404(res, "No User token Provided");
     }
@@ -44,11 +45,13 @@ export const AuthenticateUser = (
       _id: payload._id,
       role: payload.role,
     };
+
+    next();
   } catch (error) {
     logger.error(error.message);
+    console.log(error);
     return InternalServerError500(res, error);
   }
-  next();
 };
 
 export const RoleAuthorization = (
